@@ -31,7 +31,7 @@ jobs:
           cache-dependency-path: go.sum
           check-latest: true
           architecture: amd64
-      - run: go build -C ~/ -o gitlab-job-file-downloader
+      - run: go build -o gitlab-job-file-downloader
       
       - name: Download all workflow run artifacts
         uses: actions/download-artifact@v3
