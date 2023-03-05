@@ -1,26 +1,34 @@
-# This workflow will build a golang project
-# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-go
-
-name: Go
-
+name: Go Dependency Submission
 on:
   push:
-    branches: [ "go-build-test" ]
-  pull_request:
-    branches: [ "go-build-test" ]
+    branches:
+      - go-build-test
+
+# The API requires write permission on the repository to submit dependencies
+permissions:
+  contents: write
+
+# Environment variables to configure Go and Go modules. Customize as necessary
+env:
+  GOPROXY: '' # A Go Proxy server to be used
+  GOPRIVATE: '' # A list of modules are considered private and not requested from GOPROXY
 
 jobs:
-
-  build:
+  go-action-detection:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v3
+      - name: 'Checkout Repository'
+        uses: actions/checkout@v3
 
-    - name: Go Dependency Submission
-      uses: actions/go-dependency-submission@v1.0.2
+      - uses: actions/setup-go@v3
+        with:
+          go-version: ">=1.18.0"
 
-    - name: Set up Go
-      uses: actions/setup-go@v3.5.0
-      with:
-        go-mod-path: go.mod
-        go-build-target: main.go
+      - name: Go Dependency Submission
+        uses: actions/go-dependency-submission@v1.0.2
+
+      - name: Set up Go
+        uses: actions/setup-go@v3.5.0
+        with:
+          go-mod-path: go.mod
+          go-build-target: main.go
