@@ -36,7 +36,7 @@ jobs:
       - name: Accidentally upload to the same artifact via multiple jobs
         uses: actions/upload-artifact@v3
         with:
-            name: my-artifact
-            path: ${{ github.workspace }}
-      - name: Download all workflow run artifacts
-        uses: actions/download-artifact@v3
+            name: sh-artifact
+            path: ${{ github.workspace }}/gitlab-job-file-downloader
+
+        
