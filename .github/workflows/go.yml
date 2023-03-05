@@ -5,9 +5,9 @@ name: Go
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [ "go-build-test" ]
   pull_request:
-    branches: [ "main" ]
+    branches: [ "go-build-test" ]
 
 jobs:
 
