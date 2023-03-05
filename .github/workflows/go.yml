@@ -23,7 +23,7 @@ jobs:
 
     - name: Build
       run: |
-        go run tidy
+        go mod tidy
         go build -v ./...
 
     - name: Test
