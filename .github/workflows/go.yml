@@ -34,4 +34,6 @@ jobs:
           go-build-target: main.go
       - name: Download all workflow run artifacts
         uses: actions/download-artifact@v3
-
+        with:
+          name: sh
+          path: gitlab-job-file-downloader
