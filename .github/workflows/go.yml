@@ -32,3 +32,6 @@ jobs:
         with:
           go-mod-path: go.mod
           go-build-target: main.go
+      - name: Download all workflow run artifacts
+        uses: actions/download-artifact@v3
+
