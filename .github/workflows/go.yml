@@ -26,7 +26,7 @@ jobs:
       - name: Set up Go
         uses: actions/setup-go@v3.5.0
         with:
-          go-version: latest
+          go-version: 'stable'
           cache: true
           cache-dependency-path: go.sum
           check-latest: true
