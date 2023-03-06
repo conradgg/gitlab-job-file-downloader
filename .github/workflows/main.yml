@@ -35,8 +35,8 @@ jobs:
           check-latest: true
           architecture: amd64
           cond: ${{ matrix.os == 'windows-latest' }}
-            if_true: "go build -ldflags "-s -w" -o build/${{ matrix.os }}-go-${{ matrix.go-version }}-amd64.exe"
-            if_false: "go build -ldflags "-s -w" -o build/${{ matrix.os }}-go-${{ matrix.go-version }}-amd64"
+          if_true: "go build -ldflags "-s -w" -o build/${{ matrix.os }}-go-${{ matrix.go-version }}-amd64.exe"
+          if_false: "go build -ldflags "-s -w" -o build/${{ matrix.os }}-go-${{ matrix.go-version }}-amd64"
       - run: ${{ steps.condval.outputs.value }}
       - name: Upload Artifacts
         uses: actions/upload-artifact@v3
