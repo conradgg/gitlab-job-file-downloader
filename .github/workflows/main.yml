@@ -34,7 +34,7 @@ jobs:
           cache-dependency-path: go.sum
           check-latest: true
           architecture: amd64
-      - run: go build -C ./build/
+      - run: go build -C build/
       - name: Upload Artifacts
         uses: actions/upload-artifact@v3
         with:
