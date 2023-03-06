@@ -1,0 +1,46 @@
+name: Build & Deploy
+on:
+  pull_request:
+    types: [opened, edited, reopened]
+  push:
+    branches:
+      - main
+      - test
+      - dev
+permissions:
+  contents: write
+jobs:
+  build:
+    name: Build
+    strategy:
+      matrix:
+        os: ['ubuntu-latest', 'windows-latest']
+    runs-on: ${{ matrix.os }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+      - name: Go Dependency Submission
+        uses: actions/go-dependency-submission@v1.0.2
+      - name: Set up Go
+        uses: actions/setup-go@v3.5.0
+        with:
+          go-version: 'stable'
+          cache: true
+          cache-dependency-path: go.sum
+          check-latest: true
+          architecture: amd64
+      - run: go build -o build/
+      - name: Upload Artifacts
+        uses: actions/upload-artifact@v3
+        with:
+            name: build-files
+            path: build/
+  deploy:
+    name: Deploy
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get build project
+        uses: actions/download-artifact@v3
+        with:
+            name: build-files
