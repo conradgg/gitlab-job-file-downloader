@@ -8,7 +8,7 @@ GitLab Job File Downloader is a simple Job downloader from gitlab with hooks.
 ## Getting started
 
 ### Prerequisites
-
+***
 - **[Go](https://go.dev/)**: any one of the **two latest major** [releases](https://go.dev/doc/devel/release) (we test it with these).
 
 ### How to install GitLab Job File Downloader
