@@ -1,4 +1,4 @@
-name: Build and Deploy
+name: Build & Deploy
 on:
   workflow_dispatch:
   pull_request:
@@ -28,15 +28,12 @@ jobs:
       - name: Set up Go
         uses: actions/setup-go@v3.5.0
         with:
-          go-version: ${{ matrix.go-version }}
+          go-version: 'stable'
           cache: true
           cache-dependency-path: go.sum
           check-latest: true
           architecture: amd64
-          cond: ${{ matrix.os == 'windows-latest' }}
-          if_true: go build -ldflags "-s -w" -o build/${{ matrix.os }}-go-${{ matrix.go-version }}-amd64.exe
-          if_false: go build -ldflags "-s -w" -o build/${{ matrix.os }}-go-${{ matrix.go-version }}-amd64
-      - run: ${{ steps.condval.outputs.value }}
+      - run: go run build -o build/
       - name: Upload Artifacts
         uses: actions/upload-artifact@v3
         with:
