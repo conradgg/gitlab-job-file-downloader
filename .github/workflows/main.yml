@@ -34,9 +34,12 @@ jobs:
           cache-dependency-path: go.sum
           check-latest: true
           architecture: amd64
-          if: ${{ matrix.os }} == windows-latest'
-          run: go build -ldflags "-s -w" -o build/${{ matrix.os }}-go-${{ matrix.go-version }}-amd64.exe
-      - run: go build -ldflags "-s -w" -o build/${{ matrix.os }}-go-${{ matrix.go-version }}-amd64
+            cond: ${{ matrix.os == 'windows-latest' }}
+              if_true:
+                run: go build -ldflags "-s -w" -o build/${{ matrix.os }}-go-${{ matrix.go-version }}-amd64.exe
+              if_false:
+                run: go build -ldflags "-s -w" -o build/${{ matrix.os }}-go-${{ matrix.go-version }}-amd64
+
       - name: Upload Artifacts
         uses: actions/upload-artifact@v3
         with:
