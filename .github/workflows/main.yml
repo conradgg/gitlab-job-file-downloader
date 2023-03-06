@@ -35,9 +35,11 @@ jobs:
           check-latest: true
           architecture: amd64
           if: matrix.os == 'windows-latest'
-            - run: go build -ldflags "-s -w" -o build/${{ matrix.os }}-go-${{ matrix.go-version }}-amd64.exe
+            steps:
+              - run: go build -ldflags "-s -w" -o build/${{ matrix.os }}-go-${{ matrix.go-version }}-amd64.exe
           if: matrix.os != 'windows-latest'
-            - run: go build -ldflags "-s -w" -o build/${{ matrix.os }}-go-${{ matrix.go-version }}-amd64
+            steps:
+              - run: go build -ldflags "-s -w" -o build/${{ matrix.os }}-go-${{ matrix.go-version }}-amd64
       - name: Upload Artifacts
         uses: actions/upload-artifact@v3
         with:
