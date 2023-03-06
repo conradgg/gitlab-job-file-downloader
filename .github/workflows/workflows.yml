@@ -15,11 +15,15 @@ env:
   GOPRIVATE: '' # A list of modules are considered private and not requested from GOPROXY
 
 jobs:
+  name: Build Linux amd64
   go-build-linux-amd64:
     runs-on: ubuntu-latest
     steps:
       - name: Go Dependency Submission
         uses: actions/go-dependency-submission@v1.0.2
+
+      - name: Checkout repository
+        uses: actions/checkout@v3
 
       - name: Set up Go
         uses: actions/setup-go@v3.5.0
