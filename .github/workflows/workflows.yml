@@ -16,8 +16,12 @@ env:
 
 jobs:
   go-build-linux-amd64:
+    name: Build Linux amd64
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+        
       - name: Go Dependency Submission
         uses: actions/go-dependency-submission@v1.0.2
 
@@ -38,7 +42,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
             name: sh-artifact
-            path: ${{ github.workspace }}/gitlab-job-file-downloader
+            path: ${{ github.workspace }}
   analyze:
     name: Analyze
     runs-on: ubuntu-latest
