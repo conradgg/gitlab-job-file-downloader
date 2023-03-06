@@ -1,8 +1,9 @@
-name: Go Dependency Submission
+name: Go Build
 on:
   push:
     branches:
       - main
+      - workflows
 
 # The API requires write permission on the repository to submit dependencies
 permissions:
@@ -14,12 +15,9 @@ env:
   GOPRIVATE: '' # A list of modules are considered private and not requested from GOPROXY
 
 jobs:
-  go-action-detection:
+  go-build-linux-amd64:
     runs-on: ubuntu-latest
     steps:
-      - name: 'Checkout Repository'
-        uses: actions/checkout@v3
-
       - name: Go Dependency Submission
         uses: actions/go-dependency-submission@v1.0.2
 
@@ -32,11 +30,38 @@ jobs:
           check-latest: true
           architecture: amd64
       - run: go build -o gitlab-job-file-downloader
-      
+  upload-artifact:
+    name: Upload Artifacts
+    runs-on: ubuntu-latest
+    steps:
       - name: Accidentally upload to the same artifact via multiple jobs
         uses: actions/upload-artifact@v3
         with:
             name: sh-artifact
             path: ${{ github.workspace }}/gitlab-job-file-downloader
+  analyze:
+    name: Analyze
+    runs-on: ubuntu-latest
+    permissions:
+      actions: read
+      contents: read
+      security-events: write
 
-        
+    strategy:
+      fail-fast: false
+      matrix:
+        language: [ 'go' ]
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+
+    # Initializes the CodeQL tools for scanning.
+    - name: Initialize CodeQL
+      uses: github/codeql-action/init@v2
+      with:
+        languages: ${{ matrix.language }}
+
+    - name: Perform CodeQL Analysis
+      uses: github/codeql-action/analyze@v2
+      with:
+        category: "/language:${{matrix.language}}"
