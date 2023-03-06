@@ -1,12 +1,12 @@
 name: Build & Deploy
 on:
-  workflow_dispatch:
   pull_request:
     types: [opened, edited, reopened]
   push:
     branches:
       - main
-      - workflows
+      - test
+      - dev
 
 permissions:
   contents: write
