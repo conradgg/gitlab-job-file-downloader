@@ -21,7 +21,7 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
-        
+
       - name: Go Dependency Submission
         uses: actions/go-dependency-submission@v1.0.2
 
@@ -34,38 +34,38 @@ jobs:
           check-latest: true
           architecture: amd64
       - run: go build -o gitlab-job-file-downloader
-  upload-artifact:
-    name: Upload Artifacts
-    runs-on: ubuntu-latest
-    steps:
-      - name: Accidentally upload to the same artifact via multiple jobs
-        uses: actions/upload-artifact@v3
+    upload-artifact:
+      name: Upload Artifacts
+      runs-on: ubuntu-latest
+      steps:
+        - name: Accidentally upload to the same artifact via multiple jobs
+          uses: actions/upload-artifact@v3
+          with:
+              name: sh-artifact
+              path: ${{ github.workspace }}
+    analyze:
+      name: Analyze
+      runs-on: ubuntu-latest
+      permissions:
+        actions: read
+        contents: read
+        security-events: write
+
+      strategy:
+        fail-fast: false
+        matrix:
+          language: [ 'go' ]
+      steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      # Initializes the CodeQL tools for scanning.
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@v2
         with:
-            name: sh-artifact
-            path: ${{ github.workspace }}
-  analyze:
-    name: Analyze
-    runs-on: ubuntu-latest
-    permissions:
-      actions: read
-      contents: read
-      security-events: write
+          languages: ${{ matrix.language }}
 
-    strategy:
-      fail-fast: false
-      matrix:
-        language: [ 'go' ]
-    steps:
-    - name: Checkout repository
-      uses: actions/checkout@v3
-
-    # Initializes the CodeQL tools for scanning.
-    - name: Initialize CodeQL
-      uses: github/codeql-action/init@v2
-      with:
-        languages: ${{ matrix.language }}
-
-    - name: Perform CodeQL Analysis
-      uses: github/codeql-action/analyze@v2
-      with:
-        category: "/language:${{matrix.language}}"
+      - name: Perform CodeQL Analysis
+        uses: github/codeql-action/analyze@v2
+        with:
+          category: "/language:${{matrix.language}}"
