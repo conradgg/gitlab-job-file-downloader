@@ -1,4 +1,4 @@
-module gitlab-job-file-downloader
+module github.com/conradgg/gitlab-job-file-downloader
 
 go 1.18
 
