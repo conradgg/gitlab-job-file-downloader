@@ -21,25 +21,24 @@ func handleWebhook(w http.ResponseWriter, r *http.Request) {
 	err := json.NewDecoder(r.Body).Decode(&webhookData)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
-		return
 	}
 	fmt.Println("got webhook payload")
 	if webhookData["build_status"] == "success" {
 		a := fmt.Sprintf("%v", webhookData["build_id"])
 		b, _ := strconv.ParseFloat(a, 64)
 		var d int64 = int64(b)
-		deployFile(d)
+		deployFile(&d)
 	}
 }
 
-func deployFile(job_id int64) {
+func deployFile(job_id *int64) {
 	var url string = fmt.Sprintf("https://gitlab.com/api/v4/projects/%s/jobs/%d/artifacts/%s?private_token=%s", os.Getenv("PROJECT_ID"), job_id, os.Getenv("FOLDER_PATH"), os.Getenv("PROJECT_TOKEN"))
-	downloadFile(os.Getenv("ENDPOINT"), url)
+	downloadFile(&url)
 }
 
-func downloadFile(filepath string, url string) {
+func downloadFile(url *string) {
 	fmt.Println("Download started")
-	resp, err := grab.Get(filepath, url)
+	resp, err := grab.Get(os.Getenv("ENDPOINT"), *url)
 	if err != nil {
 		fmt.Println(err)
 	} else {
