@@ -10,6 +10,7 @@ currently being supported with security updates.
 | 1.0.x       | Coming Soon        |
 | 1.0.0       | Coming Soon        |
 | 1.0.0-alpha | Coming Soon        |
+| 0.1.2-alpha | :white_check_mark: |
 | 0.1.1-alpha | :white_check_mark: |
 | 0.1.0-alpha | :x:                |
 
