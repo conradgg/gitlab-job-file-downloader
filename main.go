@@ -8,7 +8,7 @@ import (
 )
 
 func main() {
-	log.Println("server started")
+	log.Println("Server started")
 	LoadConfig()
 	go discord.DicordBot()
 	webhooks.Receiver()

@@ -41,7 +41,8 @@ func downloadFile(filepath string, url string) {
 	fmt.Println("Download started")
 	resp, err := grab.Get(filepath, url)
 	if err != nil {
-		log.Fatal(err)
+		fmt.Println(err)
+	} else {
+		fmt.Println("Download saved to", resp.Filename)
 	}
-	fmt.Println("Download saved to", resp.Filename)
 }
