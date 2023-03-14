@@ -1,4 +1,4 @@
-module github.com/conradgg/gitlab-job-file-downloader
+module github.com/conradgg/product-management
 
 go 1.18
 
